@@ -24,29 +24,20 @@ class Jug:
         return self.max - self.filled
 
     @print_me
-    def fill_me(self, fill=0):
-        if not fill:
-            self.filled = self.max
-        if self.filled + fill < self.max:
-            self.filled += fill
-            self.filled = self.max
+    def fill_me(self):
+        self.filled = self.max
 
     @print_me
     def empty_me(self):
         self.filled = 0
-        return self
 
     def transfer(self, other):
         print(
             f"{self} ({self.filled}l) transfers to {other} ({other.filled}l)",
             end=" ===> ",
         )
-        remaining = other.max - other.filled
-        if self.filled < remaining:
+        if self.filled <= other.empty:
             other.filled += self.filled
-            self.filled = 0
-        elif self.filled == remaining:
-            other.filled = remaining
             self.filled = 0
         else:
             emp = other.empty
@@ -55,8 +46,8 @@ class Jug:
         print(f"{self} now ({self.filled}l)-> {other} now ({other.filled}l)")
 
 
-S, B = 5, 7
-DESIRED = 6
+S, B = 97, 101
+DESIRED = 100
 small = Jug(S)
 big = Jug(B)
 
@@ -74,5 +65,10 @@ def process():
 
 for i in process():
     if (big.filled == DESIRED) or (small.filled == DESIRED):
+        print()
         print(big, "->", big.filled, small, "->", small.filled)
+        break
+    if (big.filled == big.max) and (small.filled == small.max):
+        print()
+        print("Nope!")
         break
