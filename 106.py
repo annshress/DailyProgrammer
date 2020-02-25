@@ -1,9 +1,11 @@
 """
 [10/23/2012] Challenge #106 [Intermediate] (Jugs)
 """
+from functools import wraps
 
 
 def print_me(func):
+    @wraps(func)
     def wrapper(instance, *args):
         func(instance, *args)
         print(f"{instance} is now {instance.filled} l full")
